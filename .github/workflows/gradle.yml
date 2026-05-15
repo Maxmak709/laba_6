@@ -4,18 +4,17 @@ on:
   push:
     branches: [ "main" ]
   schedule:
-    - cron: '30 12 * * 3' # Среда 12:30
-    - cron: '0 22 * * 5'  # Пятница 22:00
+    - cron: '30 12 * * 3' # Задание 2: Среда 12:30
+    - cron: '0 22 * * 5'  # Задание 2: Пятница 22:00
 
 jobs:
   build:
     strategy:
+      fail-fast: false # Чтобы одна упавшая версия не отменяла остальные
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         java: [11, 13, 17]
-      fail-fast: false
     runs-on: ${{ matrix.os }}
-   
     
     steps:
       - name: Checkout code
@@ -25,11 +24,11 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
-          distribution: 'zulu'
+          distribution: 'zulu' # Самый полный архив версий
           
       - name: Make gradlew executable
         if: runner.os != 'Windows'
         run: chmod +x gradlew
           
       - name: Build with Gradle
-        run: ./gradlew build -x test
+        run: ./gradlew build -x test -Dorg.gradle.java.home=${{ env.JAVA_HOME }}
