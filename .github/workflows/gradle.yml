@@ -11,8 +11,8 @@ on:
   push:
     branches: [ "main" ]
   schedule:
-   - [cite_start]cron: '30 12 * * 3'  # Среда 12:30 [cite: 354, 355, 370]
-   - [cite_start]cron: '0 22 * * 5'   # Пятница 22:00 [cite: 354, 355, 370]
+    - [cite_start]cron: '30 12 * * 3'  # Запуск в среду в 12:30 [cite: 742]
+    - [cite_start]cron: '0 22 * * 5'   # Запуск в пятницу в 22:00 [cite: 742]
 
 jobs:
   build:
